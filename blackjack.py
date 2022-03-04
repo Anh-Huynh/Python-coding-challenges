@@ -64,7 +64,7 @@ class Hand:
         return f'I have {len(self.all_cards)} cards with total value of {self.values}'
 
 class Chips:
-    def __init__(self, total):
+    def __init__(self, total=100):
         self.total = total
     def win_bet(self, bet_amount):
         self.total += bet_amount
@@ -77,21 +77,13 @@ class Chips:
 
 def show_some_cards(playerhand, dealerhand):
     print("Dealer's Hand: ")
-    print("<card hidden>")
-    for card in dealerhand.all_cards[1:]:
-        print(card)
-    print("\nPlayer's Hand: ")
-    for card in playerhand.all_cards:
-        print (card)
+    print("<card hidden>", dealerhand.all_cards[1], sep='\n' )
+    print("\nPlayer's Hand: ", *playerhand.all_cards, sep='\n')
 
 def show_all_cards(playerhand, dealerhand):
-    print("Dealer's Hand: ")
-    for card in dealerhand.all_cards:
-        print(card)
+    print("Dealer's Hand: ", *dealerhand.all_cards, sep='\n')
     print(f"Dealer's Hand = {dealerhand.values}")
-    print("\nPlayer's Hand: ")
-    for card in playerhand.all_cards:
-        print (card)
+    print("\nPlayer's Hand: ", *playerhand.all_cards, sep='\n')
     print(f"Player's Hand = {playerhand.values}")
 
 class GameError(Exception):
@@ -109,7 +101,7 @@ def take_bet(player_chips):
             print('Please enter an integer')
             continue
         except NotValidBet:
-            print('Your bet exceeds your available chips')
+            print(f'Your bet exceeds your available chips, {player_chips.total}')
             continue
     return bet_amount
 
@@ -208,5 +200,7 @@ def play_blackjack():
                 print('Thank you for playing!')
                 game_on = False
                 break
+            else: 
+                print("Enter 'y' or 'n' only!")
 
 play_blackjack()
